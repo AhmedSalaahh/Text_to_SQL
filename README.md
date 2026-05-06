@@ -1,11 +1,11 @@
-# 🧭 Northwind SQL Assistant
+# Northwind SQL Assistant
 
-A natural-language-to-SQL query engine built with **LangChain**, **GPT-4o**, and **Streamlit**, backed by a hosted **Supabase PostgreSQL** database.  
+A natural-language-to-SQL query engine built with **LangChain**, **GPT-4o**, and **Streamlit**, backed by a hosted **Supabase PostgreSQL** database. 
 Ask questions in plain English; the app generates SQL, runs it against a real relational database, and returns a formatted, downloadable table.
 
 ---
 
-## ✨ Features
+## Features
 
 | Feature | Detail |
 |---|---|
@@ -19,31 +19,31 @@ Ask questions in plain English; the app generates SQL, runs it against a real re
 
 ---
 
-## 🗂 Project Structure
+## Project Structure
 
 ```
 text_to_sql/
-├── app.py            # Streamlit UI
-├── chain.py          # LangChain LCEL pipeline (generate + auto-fix)
-├── requirements.txt
-├── .env.example      # Environment variable template
-├── .gitignore
-└── README.md
+app.py # Streamlit UI
+chain.py # LangChain LCEL pipeline (generate + auto-fix)
+requirements.txt
+.env.example # Environment variable template
+.gitignore
+README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Set up Supabase
 
 1. Create a free account at [supabase.com](https://supabase.com)
 2. Create a new project
 3. Load the Northwind dataset via the Supabase SQL editor:
-   - Get the dump from [github.com/pthom/northwind_psql](https://github.com/pthom/northwind_psql)
-   - Paste and run `northwind.sql` in **Supabase → SQL Editor**
-4. Copy your connection string from **Project Settings → Database → Connection string → URI**  
-   Use the **Session mode pooler URL** (port 5432)
+- Get the dump from [github.com/pthom/northwind_psql](https://github.com/pthom/northwind_psql)
+- Paste and run `northwind.sql` in **Supabase → SQL Editor**
+4. Copy your connection string from **Project Settings → Database → Connection string → URI** 
+Use the **Session mode pooler URL** (port 5432)
 
 ### 2. Clone & install
 
@@ -74,21 +74,21 @@ streamlit run app.py
 
 ---
 
-## ☁️ Deploying to Streamlit Community Cloud
+## Deploying to Streamlit Community Cloud
 
 1. Push to GitHub (`.env` is gitignored — your secrets stay local)
 2. Go to [share.streamlit.io](https://share.streamlit.io) → **New app**
 3. Point it at your repo and `app.py`
 4. Under **Advanced settings → Secrets**, add:
-   ```toml
-   OPENAI_API_KEY = "sk-..."
-   DATABASE_URL = "postgresql://..."
-   ```
+```toml
+OPENAI_API_KEY = "sk-..."
+DATABASE_URL = "postgresql://..."
+```
 5. Deploy — you'll get a public URL to put on your resume
 
 ---
 
-## 💬 Example Questions
+## Example Questions
 
 - *Top 5 customers by total order value*
 - *Monthly revenue for 2024*
@@ -98,34 +98,34 @@ streamlit run app.py
 
 ---
 
-## 🏗 Architecture
+## Architecture
 
 ```
 User question
-     │
-     ▼
-ChatPromptTemplate  ──►  GPT-4o  ──►  StrOutputParser
-                                            │
-                                       SQL query
-                                            │
-                                   Safety validation
-                                  (SELECT-only guard)
-                                            │
-                                 Supabase PostgreSQL
-                                        /     \
-                                      OK      Error
-                                       │         │
-                                  DataFrame  Feed error
-                                  + CSV btn  back to GPT-4o
-                                                 │
-                                           Corrected SQL
-                                                 │
-                                           Re-execute
+
+
+ChatPromptTemplate GPT-4o StrOutputParser
+
+SQL query
+
+Safety validation
+(SELECT-only guard)
+
+Supabase PostgreSQL
+/ \
+OK Error
+
+DataFrame Feed error
++ CSV btn back to GPT-4o
+
+Corrected SQL
+
+Re-execute
 ```
 
 ---
 
-## 🔒 Security Notes
+## Security Notes
 
 - All LLM-generated SQL is validated before execution — only `SELECT` queries are permitted
 - `DATABASE_URL` and `OPENAI_API_KEY` are never committed (covered by `.gitignore`)
@@ -133,7 +133,7 @@ ChatPromptTemplate  ──►  GPT-4o  ──►  StrOutputParser
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - [LangChain](https://www.langchain.com/) — LCEL pipeline
 - [OpenAI GPT-4o](https://platform.openai.com/) — SQL generation & auto-correction
