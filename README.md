@@ -72,19 +72,6 @@ DATABASE_URL=postgresql://postgres.xxxx:your-password@aws-0-us-east-1.pooler.sup
 streamlit run app.py
 ```
 
----
-
-## Deploying to Streamlit Community Cloud
-
-1. Push to GitHub (`.env` is gitignored — your secrets stay local)
-2. Go to [share.streamlit.io](https://share.streamlit.io) → **New app**
-3. Point it at your repo and `app.py`
-4. Under **Advanced settings → Secrets**, add:
-```toml
-OPENAI_API_KEY = "sk-..."
-DATABASE_URL = "postgresql://..."
-```
-5. Deploy — you'll get a public URL to put on your resume
 
 ---
 
@@ -123,20 +110,3 @@ Corrected SQL
 Re-execute
 ```
 
----
-
-## Security Notes
-
-- All LLM-generated SQL is validated before execution — only `SELECT` queries are permitted
-- `DATABASE_URL` and `OPENAI_API_KEY` are never committed (covered by `.gitignore`)
-- On Streamlit Cloud, secrets are stored encrypted and injected at runtime
-
----
-
-## Tech Stack
-
-- [LangChain](https://www.langchain.com/) — LCEL pipeline
-- [OpenAI GPT-4o](https://platform.openai.com/) — SQL generation & auto-correction
-- [Streamlit](https://streamlit.io/) — UI & deployment
-- [Supabase](https://supabase.com/) — hosted PostgreSQL
-- [Pandas](https://pandas.pydata.org/) — result formatting
